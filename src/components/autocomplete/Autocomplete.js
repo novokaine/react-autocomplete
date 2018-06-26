@@ -7,8 +7,6 @@ class Autocomplete extends React.Component {
 	constructor() {
 		super();
 		
-		
-		
 		this.state = {
 			countryList: [], //initial state filled with countries
 			loading: false,
@@ -89,7 +87,7 @@ class Autocomplete extends React.Component {
 	
 	render() {
 		const {loading, flag, filterCountry, dropDownVisible} = this.state;
-		const dropDownClassName = dropDownVisible ? "search-wrapper opened" : "search-wrapper opened";
+		const dropDownClassName = dropDownVisible ? "search-wrapper opened" : "search-wrapper";
 		return (
 			<div className={dropDownClassName}  onClick={(event) => this.toggleDropdown(event)} >
 				<ul>
