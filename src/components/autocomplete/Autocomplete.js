@@ -24,9 +24,20 @@ class Autocomplete extends React.Component {
 		
 	}
 	
-	renderCountry(country, key){
+	renderCountryOld(country, key){
 		return (
 			<RenderCountry dataKey={key} countryDetails={country} selectCountry={this.selectCountry} />
+		)
+	}
+	
+	renderCountry(country, key){
+		return(
+			<li key={key}>
+				<svg>
+					<svg><use  xlinkHref={"#" + country.code.toLowerCase()} /></svg>
+				</svg>
+				<span>{country.name}</span>
+			</li>
 		)
 	}
 	
@@ -82,7 +93,12 @@ class Autocomplete extends React.Component {
 		
 		if(event.target.className !== this.refs.searchCountry.className){
 			this.state.dropDownVisible ? this.setState({dropDownVisible: false}) : this.setState({dropDownVisible: true});
+			this.refs.searchCountry.value = "";
+			this.setState({
+				filterCountry: this.state.countryList
+			})
 		}
+		
 	}
 	
 	render() {
@@ -102,7 +118,16 @@ class Autocomplete extends React.Component {
 						<i className="ico-wb-search"></i>
 						<ul onKeyDown={this.keyboardNavigation}>
 							<Scrollbars style={{width: 340}} autoHeight>
-								{loading ? <li>Loading</li> : filterCountry.map((country, key) => this.renderCountry(country, key))}
+								{loading ? <li>Loading</li> : filterCountry.map((country, key) =>
+									<li key={key} onClick={() => this.selectCountry(country)}>
+										<svg>
+											<svg><use  xlinkHref={"#" + country.code.toLowerCase()} /></svg>
+										</svg>
+										<span>{country.name}</span>
+									</li>
+									
+								)}
+								
 							</Scrollbars>
 						</ul>
 					</li>
