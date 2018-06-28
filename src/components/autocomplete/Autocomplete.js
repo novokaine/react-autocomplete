@@ -6,7 +6,7 @@ import {Scrollbars } from "react-custom-scrollbars";
 class Autocomplete extends React.Component {
 	constructor() {
 		super();
-		
+
 		this.state = {
 			countryList: [], //initial state filled with countries
 			loading: false,
@@ -102,8 +102,10 @@ class Autocomplete extends React.Component {
 	}
 	
 	render() {
-		const {loading, flag, filterCountry, dropDownVisible} = this.state;
-		const dropDownClassName = dropDownVisible ? "search-wrapper opened" : "search-wrapper";
+		const {loading, flag, filterCountry, dropDownVisible} = this.state,
+			dropDownClassName = dropDownVisible ? "search-wrapper opened" : "search-wrapper",
+			svgData =  this.props.svgData;
+		console.log(svgData)
 		return (
 			<div className={dropDownClassName}  onClick={(event) => this.toggleDropdown(event)} >
 				<ul>
@@ -121,13 +123,11 @@ class Autocomplete extends React.Component {
 								{loading ? <li>Loading</li> : filterCountry.map((country, key) =>
 									<li key={key} onClick={() => this.selectCountry(country)}>
 										<svg>
-											<svg><use  xlinkHref={"#" + country.code.toLowerCase()} /></svg>
+											<svg><use  xlinkHref={`#` + country.code.toLowerCase()} /></svg>
 										</svg>
 										<span>{country.name}</span>
 									</li>
-									
 								)}
-								
 							</Scrollbars>
 						</ul>
 					</li>
