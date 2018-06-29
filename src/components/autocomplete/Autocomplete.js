@@ -14,7 +14,9 @@ class Autocomplete extends React.Component {
 			flag: "",
 			selected: {},
 			filterCountry: [], //will be updated with results of countries found
-			dropDownVisible: false
+			dropDownVisible: false,
+			cursor: 0,
+			hoverElement: ""
 		};
 		
 		
@@ -100,12 +102,30 @@ class Autocomplete extends React.Component {
 		}
 		
 	}
+
+	keyboardNavigation(key){
+		let keyKode = ['ArrowUp','ArrowDown', 'Enter'];
+		console.log(key.key);
+
+		if(keyKode.indexOf(key.key) != -1){
+			console.log(key.key);
+
+			switch (key.key){
+				case 'ArrowDown':
+					this.setState({cursor: this.state.cursor + 1});
+					break;
+				case 'ArrowUp':
+					this.setState({cursor: this.state.cursor - 1 ? this.state.cursor > 0 : 0});
+					break;
+			}
+		}
+	}
 	
 	render() {
-		const {loading, flag, filterCountry, dropDownVisible} = this.state,
+		const {loading, flag, filterCountry, dropDownVisible, cursor} = this.state,
 			dropDownClassName = dropDownVisible ? "search-wrapper opened" : "search-wrapper",
 			svgData =  this.props.svgData;
-		console.log(svgData)
+		console.log(cursor);
 		return (
 			<div className={dropDownClassName}  onClick={(event) => this.toggleDropdown(event)} >
 				<ul>
@@ -116,12 +136,12 @@ class Autocomplete extends React.Component {
 					</li>
 
 					<li className="dropdown-list">
-						<input autoFocus="true" ref="searchCountry" className="search" placeholder="Search" type="text"  onChange={() => this.searchCountry(this.refs.searchCountry.value)} />
+						<input autoFocus="true" ref="searchCountry" className="search" placeholder="Search" type="text"  onChange={() => this.searchCountry(this.refs.searchCountry.value)} onKeyDown={(keyEvent) => this.keyboardNavigation(keyEvent)} />
 						<i className="ico-wb-search"></i>
-						<ul onKeyDown={this.keyboardNavigation}>
+						<ul>
 							<Scrollbars style={{width: 340}} autoHeight>
 								{loading ? <li>Loading</li> : filterCountry.map((country, key) =>
-									<li key={key} onClick={() => this.selectCountry(country)}>
+									<li key={key} onClick={() => this.selectCountry(country)} className={key==cursor?'hover':''}>
 										<svg>
 											<svg><use  xlinkHref={`#` + country.code.toLowerCase()} /></svg>
 										</svg>
