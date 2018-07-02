@@ -16,7 +16,7 @@ class Autocomplete extends React.Component {
 			filterCountry: [], //will be updated with results of countries found
 			dropDownVisible: false,
 			cursor: 0,
-			hoverElement: ""
+			selectedElement: 0
 		};
 		
 		
@@ -104,12 +104,9 @@ class Autocomplete extends React.Component {
 	}
 
 	keyboardNavigation(key){
+		
 		let keyKode = ['ArrowUp','ArrowDown', 'Enter'];
-		console.log(key.key);
-
 		if(keyKode.indexOf(key.key) != -1){
-			console.log(key.key);
-
 			switch (key.key){
 				case 'ArrowDown':
 					this.setState({cursor: this.state.cursor + 1});
@@ -121,11 +118,26 @@ class Autocomplete extends React.Component {
 		}
 	}
 	
+	handleScrollUpdate(event, values){
+		
+		//console.log(event);
+		/*let scroll = new Scrollbars();
+		console.log(scroll)*/
+		
+		//console.log('here is handle scroll update')
+	}
+	
+	getScroll(event, values){
+		//console.log(event)
+	}
+	
+	handleScroll(values){
+		console.log(values)
+	}
 	render() {
 		const {loading, flag, filterCountry, dropDownVisible, cursor} = this.state,
-			dropDownClassName = dropDownVisible ? "search-wrapper opened" : "search-wrapper",
-			svgData =  this.props.svgData;
-		console.log(cursor);
+			dropDownClassName = dropDownVisible ? "search-wrapper opened" : "search-wrapper";
+			
 		return (
 			<div className={dropDownClassName}  onClick={(event) => this.toggleDropdown(event)} >
 				<ul>
@@ -136,10 +148,23 @@ class Autocomplete extends React.Component {
 					</li>
 
 					<li className="dropdown-list">
-						<input autoFocus="true" ref="searchCountry" className="search" placeholder="Search" type="text"  onChange={() => this.searchCountry(this.refs.searchCountry.value)} onKeyDown={(keyEvent) => this.keyboardNavigation(keyEvent)} />
+						
+						<input autoFocus="true" ref="searchCountry"
+						       className="search"
+						       placeholder="Search"
+						       type="text"
+						       onChange={() => this.searchCountry(this.refs.searchCountry.value)}
+						       onKeyDown={(keyEvent) => this.keyboardNavigation(keyEvent)} />
+						
 						<i className="ico-wb-search"></i>
+						
 						<ul>
-							<Scrollbars style={{width: 340}} autoHeight>
+							<Scrollbars style={{width: 340}}
+							            autoHeight
+							            onUpdate={(event, values)=>this.handleScrollUpdate(event, values)}
+							            onScroll={(Signature, values)=>this.getScroll(Signature, values)}
+							            onScrollFrame={this.handleScroll}>
+								
 								{loading ? <li>Loading</li> : filterCountry.map((country, key) =>
 									<li key={key} onClick={() => this.selectCountry(country)} className={key==cursor?'hover':''}>
 										<svg>
