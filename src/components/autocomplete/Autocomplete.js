@@ -1,6 +1,6 @@
 import React from 'react';
 import RenderCountry from "./RenderCountry";
-import {Scrollbars } from "react-custom-scrollbars";
+import  { Scrollbars } from "react-custom-scrollbars";
 //https://github.com/malte-wessel/react-custom-scrollbars
 
 class Autocomplete extends React.Component {
@@ -25,6 +25,7 @@ class Autocomplete extends React.Component {
 		this.selectCountry = this.selectCountry.bind(this);
 		this.toggleDropdown = this.toggleDropdown.bind(this);
 		this.handleScroll = this.handleScroll.bind(this);
+		this.renderCountry = this.renderCountry.bind(this);
 		
 	}
 	
@@ -38,7 +39,7 @@ class Autocomplete extends React.Component {
 		const {cursor} = this.state;
 
 		return(
-			<li key={key} onClick={() => this.selectCountry(country)} className={ key == cursor ? 'hover' :''}>
+			<li key={key} onClick={() => this.selectCountry(country)} className={ key == cursor ? 'hover' :''} ref={country.code.toLowerCase()}>
 				<svg>
 					<svg><use  xlinkHref={"#" + country.code.toLowerCase()} /></svg>
 				</svg>
@@ -73,7 +74,7 @@ class Autocomplete extends React.Component {
 			countryList:this.props.countriesData,
 			loading: false,
 			filterCountry: this.props.countriesData
-		})
+		});
 	}
  
 	componentDidMount() {
@@ -82,6 +83,7 @@ class Autocomplete extends React.Component {
 	} 
  
 	componentWillUpdate(){
+		console.log(Scrollbars);
 		//console.log(this.state.scrollOffest);
 	}
 	
@@ -106,6 +108,8 @@ class Autocomplete extends React.Component {
 
 	keyboardNavigation(key){
 		let keyKode = ['ArrowUp','ArrowDown', 'Enter'];
+		console.log(this.refs)
+		
 		if(keyKode.indexOf(key.key) != -1){
 			switch (key.key){
 				case 'ArrowDown':
@@ -129,11 +133,15 @@ class Autocomplete extends React.Component {
 	}
 	
 	getScroll(event, values){
+
+		/* @TODO - get the scroll top value of the focused element on keyboard navigation*/
 		//console.log(event, values)
+		//this.refs.mineScrollbar.scrollTop(this.state.scrollOffest);
 	}
 	
 	handleScroll(event, values){
-		console.log(event)
+		//console.log(event);
+		
 		//this.setState({scrollOffest: values.top});
 		
 		/*const mineScrollbar = new Scrollbars();
@@ -174,7 +182,7 @@ class Autocomplete extends React.Component {
 							            autoHeight
 							            onUpdate={(event, values)=>this.handleScrollUpdate(event, values)}
 							            onScroll={(Signature, values)=>this.getScroll(Signature, values)}
-							            onScrollFrame={this.handleScroll}>
+							            onScrollFrame={this.handleScroll} ref="mineScrollbar">
 
 								{loading ? 
 									<li>Loading</li> : 
