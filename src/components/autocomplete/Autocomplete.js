@@ -83,7 +83,7 @@ class Autocomplete extends React.Component {
 	} 
  
 	componentWillUpdate(){
-		console.log(Scrollbars);
+		//console.log(Scrollbars);
 		//console.log(this.state.scrollOffest);
 	}
 	
@@ -108,15 +108,15 @@ class Autocomplete extends React.Component {
 
 	keyboardNavigation(key){
 		let keyKode = ['ArrowUp','ArrowDown', 'Enter'];
-		console.log(this.refs)
-		
 		if(keyKode.indexOf(key.key) != -1){
 			switch (key.key){
 				case 'ArrowDown':
-					this.setState({cursor: this.state.cursor + 1});
+					this.setState({cursor: this.state.cursor < this.state.filterCountry.length ? this.state.cursor + 1 : this.state.filterCountry.length - 1});
+					//console.log(this.state.filterCountry.length);
+					console.log(this.state.cursor)
 					break;
 				case 'ArrowUp':
-					this.setState({cursor: this.state.cursor - 1 ? this.state.cursor > 0 : 0});
+					this.setState({cursor: this.state.cursor > 0 ? this.state.cursor -1 : 0});
 					break;
 			}
 		}
