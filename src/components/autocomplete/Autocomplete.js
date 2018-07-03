@@ -134,7 +134,7 @@ class Autocomplete extends React.Component {
 	}
 	
 	handleScroll(event, values){
-		console.log(event, values)
+		console.log(event)
 		//this.setState({scrollOffest: values.top});
 		
 		/*const mineScrollbar = new Scrollbars();
@@ -176,15 +176,18 @@ class Autocomplete extends React.Component {
 							            onUpdate={(event, values)=>this.handleScrollUpdate(event, values)}
 							            onScroll={(Signature, values)=>this.getScroll(Signature, values)}
 							            onScrollFrame={this.handleScroll}>
-								
-								{loading ? <li>Loading</li> : filterCountry.map((country, key) =>
-									<li key={key} onClick={() => this.selectCountry(country)} className={key==cursor?'hover':''}>
-										<svg>
-											<svg><use  xlinkHref={`#` + country.code.toLowerCase()} /></svg>
-										</svg>
-										<span>{country.name}</span>
-									</li>
-								)}
+
+								{loading ? <li>Loading</li> : 
+									(filterCountry.length ? 
+										filterCountry.map((country, key) => 
+												<li key={key} onClick={() => this.selectCountry(country)} className={ key == cursor ? 'hover' : ''}>
+													<svg>
+														<svg><use  xlinkHref={`#` + country.code.toLowerCase()} /></svg>
+													</svg>
+													<span>{country.name}</span>
+												</li>
+											) : <li><span>No results found</span></li>
+									)}
 							</Scrollbars>
 						</ul>
 					</li>
