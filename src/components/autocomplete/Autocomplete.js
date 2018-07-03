@@ -21,17 +21,28 @@ class Autocomplete extends React.Component {
 		};
 		
 		
-		this.searchCountry = this.searchCountry.bind(this);
-		this.selectCountry = this.selectCountry.bind(this);
-		this.toggleDropdown = this.toggleDropdown.bind(this);
-		this.handleScroll = this.handleScroll.bind(this);
-		this.renderCountry = this.renderCountry.bind(this);
+		this.searchCountry      = this.searchCountry.bind(this);
+		this.selectCountry      = this.selectCountry.bind(this);
+		this.toggleDropdown     = this.toggleDropdown.bind(this);
+		this.handleScroll       = this.handleScroll.bind(this);
+		this.renderCountry      = this.renderCountry.bind(this);
 		
 	}
 	
 	renderCountryOld(country, key){
 		return (
 			<RenderCountry dataKey={key} countryDetails={country} selectCountry={this.selectCountry} />
+		)
+	}
+
+	renderSearch(){
+		const {flag} = this.state;
+		return(
+			<li className="select-option">
+						{ flag ? <svg className="selected-flag"><use xlinkHref={"#" + flag.toLocaleLowerCase()} /></svg> : ''}
+				<input value={this.state.value} className={flag ? 'select choosed' : 'select' } readOnly="readonly" type="text" title={this.state.value}/>
+				<i className="ico-wb-triangle"/>
+			</li>
 		)
 	}
 	
@@ -106,14 +117,14 @@ class Autocomplete extends React.Component {
 		
 	}
 
-	keyboardNavigation(key){
+	keyboardNavigation(event){
 		let keyKode = ['ArrowUp','ArrowDown', 'Enter'];
-		if(keyKode.indexOf(key.key) != -1){
-			switch (key.key){
+		if(keyKode.indexOf(event.key) != -1){
+			switch (event.key){
 				case 'ArrowDown':
 					this.setState({cursor: this.state.cursor < this.state.filterCountry.length ? this.state.cursor + 1 : this.state.filterCountry.length - 1});
-					//console.log(this.state.filterCountry.length);
-					console.log(this.state.cursor)
+
+					//this.handleScrollUpdate();
 					break;
 				case 'ArrowUp':
 					this.setState({cursor: this.state.cursor > 0 ? this.state.cursor -1 : 0});
@@ -122,7 +133,8 @@ class Autocomplete extends React.Component {
 		}
 	}
 	
-	handleScrollUpdate(event, values){
+	handleScrollUpdate(event){
+		console.log(event);
 		/*console.log(event);
 		console.log(Scrollbars);*/
 		//console.log(event);
@@ -132,14 +144,14 @@ class Autocomplete extends React.Component {
 		//console.log('here is handle scroll update')
 	}
 	
-	getScroll(event, values){
+	getScroll(event){
 
 		/* @TODO - get the scroll top value of the focused element on keyboard navigation*/
 		//console.log(event, values)
 		//this.refs.mineScrollbar.scrollTop(this.state.scrollOffest);
 	}
 	
-	handleScroll(event, values){
+	handleScroll(event){
 		//console.log(event);
 		
 		//this.setState({scrollOffest: values.top});
@@ -154,17 +166,13 @@ class Autocomplete extends React.Component {
 	}
 	
 	render() {
-		const {loading, flag, filterCountry, dropDownVisible, cursor} = this.state,
+		const {loading, filterCountry, dropDownVisible} = this.state,
 			dropDownClassName = dropDownVisible ? "search-wrapper opened" : "search-wrapper";
 			
 		return (
 			<div className={dropDownClassName}  onClick={(event) => this.toggleDropdown(event)} >
 				<ul>
-					<li className="select-option">
-						{ flag ? <svg className="selected-flag"><use xlinkHref={"#" + flag.toLocaleLowerCase()} /></svg> : ''}
-						<input value={this.state.value} className={flag ? 'select choosed' : 'select' } readOnly="readonly" type="text" title={this.state.value}/>
-						<i className="ico-wb-triangle"/>
-					</li>
+					{this.renderSearch()}
 
 					<li className="dropdown-list">
 						
@@ -180,8 +188,8 @@ class Autocomplete extends React.Component {
 						<ul>
 							<Scrollbars style={{width: 340}}
 							            autoHeight
-							            onUpdate={(event, values)=>this.handleScrollUpdate(event, values)}
-							            onScroll={(Signature, values)=>this.getScroll(Signature, values)}
+							            onUpdate={this.handleScrollUpdate}
+							            onScroll={this.getScroll}
 							            onScrollFrame={this.handleScroll} ref="mineScrollbar">
 
 								{loading ? 
