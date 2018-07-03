@@ -16,13 +16,15 @@ class Autocomplete extends React.Component {
 			filterCountry: [], //will be updated with results of countries found
 			dropDownVisible: false,
 			cursor: 0,
-			selectedElement: 0
+			selectedElement: 0,
+			scrollOffest: 0
 		};
 		
 		
 		this.searchCountry = this.searchCountry.bind(this);
 		this.selectCountry = this.selectCountry.bind(this);
 		this.toggleDropdown = this.toggleDropdown.bind(this);
+		this.handleScroll = this.handleScroll.bind(this);
 		
 	}
 	
@@ -78,7 +80,7 @@ class Autocomplete extends React.Component {
 	} 
  
 	componentWillUpdate(){
-		console.log('component will update');
+		//console.log(this.state.scrollOffest);
 	}
 	
 	componentWillReceiveProps(){
@@ -90,8 +92,8 @@ class Autocomplete extends React.Component {
 	}
 	
 	toggleDropdown(event){
-		console.log(event.target.className);
-		console.log(this.refs.searchCountry.className);
+		/*console.log(event.target.className);
+		console.log(this.refs.searchCountry.className);*/
 		
 		if(event.target.className !== this.refs.searchCountry.className){
 			this.state.dropDownVisible ? this.setState({dropDownVisible: false}) : this.setState({dropDownVisible: true});
@@ -104,7 +106,6 @@ class Autocomplete extends React.Component {
 	}
 
 	keyboardNavigation(key){
-		
 		let keyKode = ['ArrowUp','ArrowDown', 'Enter'];
 		if(keyKode.indexOf(key.key) != -1){
 			switch (key.key){
@@ -119,7 +120,8 @@ class Autocomplete extends React.Component {
 	}
 	
 	handleScrollUpdate(event, values){
-		
+		/*console.log(event);
+		console.log(Scrollbars);*/
 		//console.log(event);
 		/*let scroll = new Scrollbars();
 		console.log(scroll)*/
@@ -128,12 +130,22 @@ class Autocomplete extends React.Component {
 	}
 	
 	getScroll(event, values){
-		//console.log(event)
+		//console.log(event, values)
 	}
 	
-	handleScroll(values){
-		console.log(values)
+	handleScroll(event, values){
+		console.log(event, values)
+		//this.setState({scrollOffest: values.top});
+		
+		/*const mineScrollbar = new Scrollbars();
+		mineScrollbar.scrollToTop(100);*/
+		//console.log(mineScrollbar)
+		
+		//console.log(Scrollbars);
+		//Scrollbars.scrollTop;
+		//getScrollHeight()
 	}
+	
 	render() {
 		const {loading, flag, filterCountry, dropDownVisible, cursor} = this.state,
 			dropDownClassName = dropDownVisible ? "search-wrapper opened" : "search-wrapper";
