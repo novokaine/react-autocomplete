@@ -35,8 +35,10 @@ class Autocomplete extends React.Component {
 	}
 	
 	renderCountry(country, key){
+		const {cursor} = this.state;
+
 		return(
-			<li key={key}>
+			<li key={key} onClick={() => this.selectCountry(country)} className={ key == cursor ? 'hover' :''}>
 				<svg>
 					<svg><use  xlinkHref={"#" + country.code.toLowerCase()} /></svg>
 				</svg>
@@ -92,9 +94,6 @@ class Autocomplete extends React.Component {
 	}
 	
 	toggleDropdown(event){
-		/*console.log(event.target.className);
-		console.log(this.refs.searchCountry.className);*/
-		
 		if(event.target.className !== this.refs.searchCountry.className){
 			this.state.dropDownVisible ? this.setState({dropDownVisible: false}) : this.setState({dropDownVisible: true});
 			this.refs.searchCountry.value = "";
@@ -177,17 +176,12 @@ class Autocomplete extends React.Component {
 							            onScroll={(Signature, values)=>this.getScroll(Signature, values)}
 							            onScrollFrame={this.handleScroll}>
 
-								{loading ? <li>Loading</li> : 
-									(filterCountry.length ? 
-										filterCountry.map((country, key) => 
-												<li key={key} onClick={() => this.selectCountry(country)} className={ key == cursor ? 'hover' : ''}>
-													<svg>
-														<svg><use  xlinkHref={`#` + country.code.toLowerCase()} /></svg>
-													</svg>
-													<span>{country.name}</span>
-												</li>
-											) : <li><span>No results found</span></li>
-									)}
+								{loading ? 
+									<li>Loading</li> : 
+									(filterCountry.length ?
+										filterCountry.map((country, key) => this.renderCountry(country, key)) : 
+										<li><span>No results found</span></li>
+								)}
 							</Scrollbars>
 						</ul>
 					</li>
