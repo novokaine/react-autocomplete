@@ -1,6 +1,7 @@
 import React from 'react';
-import RenderCountry from "./RenderCountry";
-import  { Scrollbars } from "react-custom-scrollbars";
+import RenderCountry from './RenderCountry';
+import RenderSearch from './RenderSearch';
+import  { Scrollbars } from 'react-custom-scrollbars';
 //https://github.com/malte-wessel/react-custom-scrollbars
 
 class Autocomplete extends React.Component {
@@ -29,33 +30,17 @@ class Autocomplete extends React.Component {
 		
 	}
 	
-	renderCountryOld(country, key){
-		return (
-			<RenderCountry dataKey={key} countryDetails={country} selectCountry={this.selectCountry} />
-		)
-	}
-
-	renderSearch(){
-		const {flag} = this.state;
-		return(
-			<li className="select-option">
-						{ flag ? <svg className="selected-flag"><use xlinkHref={"#" + flag.toLocaleLowerCase()} /></svg> : ''}
-				<input value={this.state.value} className={flag ? 'select choosed' : 'select' } readOnly="readonly" type="text" title={this.state.value}/>
-				<i className="ico-wb-triangle"/>
-			</li>
-		)
-	}
-	
 	renderCountry(country, key){
 		const {cursor} = this.state;
-
-		return(
-			<li key={key} onClick={() => this.selectCountry(country)} className={ key == cursor ? 'hover' :''} ref={country.code.toLowerCase()}>
-				<svg>
-					<svg><use  xlinkHref={"#" + country.code.toLowerCase()} /></svg>
-				</svg>
-				<span>{country.name}</span>
-			</li>
+		
+		return (
+			<RenderCountry
+				dataKey={key}
+				countryDetails={country}
+				selectCountry={this.selectCountry}
+				click={() => this.selectCountry(country)}
+				cursor={cursor}
+			/>
 		)
 	}
 	
@@ -75,12 +60,15 @@ class Autocomplete extends React.Component {
 	selectCountry(country){
 		this.setState({
 			value: country.name,
-			flag: country.code
-		})
+			flag: country.code,
+			dropDownVisible: !this.state.dropDownVisible,
+			filterCountry: this.props.countriesData
+		}, ()=>{console.log('finish')});
 	}
 
 	componentWillMount() {
 		this.setState({loading: true});
+		
 		this.setState({
 			countryList:this.props.countriesData,
 			loading: false,
@@ -89,13 +77,11 @@ class Autocomplete extends React.Component {
 	}
  
 	componentDidMount() {
-		this.dropdown = this.refs.dropdown;
 		console.log('component did mount')
 	} 
  
 	componentWillUpdate(){
-		//console.log(Scrollbars);
-		//console.log(this.state.scrollOffest);
+	
 	}
 	
 	componentWillReceiveProps(){
@@ -107,13 +93,16 @@ class Autocomplete extends React.Component {
 	}
 	
 	toggleDropdown(event){
-		if(event.target.className !== this.refs.searchCountry.className){
-			this.state.dropDownVisible ? this.setState({dropDownVisible: false}) : this.setState({dropDownVisible: true});
-			this.refs.searchCountry.value = "";
-			this.setState({
-				filterCountry: this.state.countryList
-			})
+		
+		if(event.target.className !== 'select') {
+			return;
 		}
+		
+		this.setState({
+			dropDownVisible: !this.state.dropDownVisible
+		}, ()=> { this.searchInput.focus() });
+		
+		event.target.value = "";
 		
 	}
 
@@ -123,8 +112,6 @@ class Autocomplete extends React.Component {
 			switch (event.key){
 				case 'ArrowDown':
 					this.setState({cursor: this.state.cursor < this.state.filterCountry.length ? this.state.cursor + 1 : this.state.filterCountry.length - 1});
-
-					//this.handleScrollUpdate();
 					break;
 				case 'ArrowUp':
 					this.setState({cursor: this.state.cursor > 0 ? this.state.cursor -1 : 0});
@@ -134,7 +121,7 @@ class Autocomplete extends React.Component {
 	}
 	
 	handleScrollUpdate(event){
-		console.log(event);
+		//console.log(event);
 		/*console.log(event);
 		console.log(Scrollbars);*/
 		//console.log(event);
@@ -166,21 +153,20 @@ class Autocomplete extends React.Component {
 	}
 	
 	render() {
-		const {loading, filterCountry, dropDownVisible} = this.state,
+		const {loading, filterCountry, dropDownVisible, flag, value} = this.state,
 			dropDownClassName = dropDownVisible ? "search-wrapper opened" : "search-wrapper";
 			
 		return (
-			<div className={dropDownClassName}  onClick={(event) => this.toggleDropdown(event)} >
+			<div className={dropDownClassName} onClick={(event) => this.toggleDropdown(event)} >
 				<ul>
-					{this.renderSearch()}
-
+					<RenderSearch flag={flag} value={value}/>
 					<li className="dropdown-list">
-						
-						<input autoFocus="true" ref="searchCountry"
+						{/*ref="searchCountry"*/}
+						<input ref={(input)=>{this.searchInput = input}}
 						       className="search"
 						       placeholder="Search"
 						       type="text"
-						       onChange={() => this.searchCountry(this.refs.searchCountry.value)}
+						       onChange={() => this.searchCountry(this.searchInput.value)}
 						       onKeyDown={(keyEvent) => this.keyboardNavigation(keyEvent)} />
 						
 						<i className="ico-wb-search"></i>
@@ -192,11 +178,10 @@ class Autocomplete extends React.Component {
 							            onScroll={this.getScroll}
 							            onScrollFrame={this.handleScroll} ref="mineScrollbar">
 
-								{loading ? 
-									<li>Loading</li> : 
-									(filterCountry.length ?
-										filterCountry.map((country, key) => this.renderCountry(country, key)) : 
-										<li><span>No results found</span></li>
+								{loading ?
+									<li>Loading</li> :
+									(filterCountry.length ? filterCountry.map((country, key) => this.renderCountry(country, key)) :
+											<li><span>No results found</span></li>
 								)}
 							</Scrollbars>
 						</ul>

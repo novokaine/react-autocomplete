@@ -1,17 +1,14 @@
-import React, {Component} from 'react';
+import React from 'react';
 
-class RenderCountry extends Component{
-	render(){
-		//console.log(this.props)
-		return(
-			<li key={this.props.dataKey} onClick={() => this.props.selectCountry(this.props.countryDetails)}>
-				<svg>
-					<svg><use  xlinkHref={"#" + this.props.countryDetails.code.toLowerCase()} /></svg>
-				</svg>
-				<span>{this.props.countryDetails.name}</span>
-			</li>
-		)
-	}
-}
+const RenderCountry = (props) =>{
+	return(
+		<li key={props.dataKey} onClick={props.click} className={props.dataKey === props.cursor ? 'hover' :''} >
+			<svg>
+				<svg><use  xlinkHref={"#" + props.countryDetails.code.toLowerCase()} /></svg>
+			</svg>
+			<span>{props.countryDetails.name}</span>
+		</li>
+	)
+};
 
 export default RenderCountry;
