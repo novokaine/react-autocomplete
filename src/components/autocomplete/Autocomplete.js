@@ -59,20 +59,20 @@ class Autocomplete extends React.Component {
  
 	selectCountry(country){
 		this.setState({
-			value: country.name,
-			flag: country.code,
-			dropDownVisible: !this.state.dropDownVisible,
-			filterCountry: this.props.countriesData
-		}, ()=>{console.log('finish')});
+			value:              country.name,
+			flag:               country.code,
+			dropDownVisible:    !this.state.dropDownVisible,
+			filterCountry:      this.props.countriesData
+		});
 	}
 
 	componentWillMount() {
 		this.setState({loading: true});
 		
 		this.setState({
-			countryList:this.props.countriesData,
-			loading: false,
-			filterCountry: this.props.countriesData
+			countryList:    this.props.countriesData,
+			loading:        false,
+			filterCountry:  this.props.countriesData
 		});
 	}
  
