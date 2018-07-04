@@ -77,7 +77,7 @@ class Autocomplete extends React.Component {
 	}
  
 	componentDidMount() {
-		console.log('component did mount')
+		console.log(this.refs.select)
 	} 
  
 	componentWillUpdate(){
@@ -93,17 +93,14 @@ class Autocomplete extends React.Component {
 	}
 	
 	toggleDropdown(event){
-		
-		if(event.target.className !== 'select') {
+		if(event.target !== this.select) {
 			return;
 		}
 		
 		this.setState({
 			dropDownVisible: !this.state.dropDownVisible
 		}, ()=> { this.searchInput.focus() });
-		
 		event.target.value = "";
-		
 	}
 
 	keyboardNavigation(event){
@@ -159,7 +156,7 @@ class Autocomplete extends React.Component {
 		return (
 			<div className={dropDownClassName} onClick={(event) => this.toggleDropdown(event)} >
 				<ul>
-					<RenderSearch flag={flag} value={value}/>
+					<RenderSearch flag={flag} value={value} propRef={(node)=>{this.select = node}}/>
 					<li className="dropdown-list">
 						{/*ref="searchCountry"*/}
 						<input ref={(input)=>{this.searchInput = input}}
