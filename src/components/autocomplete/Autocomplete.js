@@ -10,7 +10,7 @@ class Autocomplete extends React.Component {
 
 		this.state = {
 			countryList: [], //initial state filled with countries
-			loading: false,
+			loading: true,
 			value: "Please select", 
 			flag: "",
 			selected: {},
@@ -55,6 +55,7 @@ class Autocomplete extends React.Component {
 		this.setState({
 			filterCountry: matches
 		})
+		
 	}
  
 	selectCountry(country){
@@ -63,25 +64,23 @@ class Autocomplete extends React.Component {
 			flag:               country.code,
 			dropDownVisible:    !this.state.dropDownVisible,
 			filterCountry:      this.props.countriesData
+		}, ()=> {
+			this.searchInput.value = '';
 		});
-	}
-
-	componentWillMount() {
-		this.setState({loading: true});
 		
-		this.setState({
-			countryList:    this.props.countriesData,
-			loading:        false,
-			filterCountry:  this.props.countriesData
-		});
 	}
  
 	componentDidMount() {
-		console.log(this.refs.select)
+		this.setState({
+			loading:        false,
+			countryList:    this.props.countriesData,
+			filterCountry:  this.props.countriesData
+		});
 	} 
  
 	componentWillUpdate(){
-	
+		console.log('component will update here');
+		
 	}
 	
 	componentWillReceiveProps(){
@@ -100,7 +99,8 @@ class Autocomplete extends React.Component {
 		this.setState({
 			dropDownVisible: !this.state.dropDownVisible
 		}, ()=> { this.searchInput.focus() });
-		event.target.value = "";
+		
+		
 	}
 
 	keyboardNavigation(event){
@@ -157,6 +157,7 @@ class Autocomplete extends React.Component {
 			<div className={dropDownClassName} onClick={(event) => this.toggleDropdown(event)} >
 				<ul>
 					<RenderSearch flag={flag} value={value} propRef={(node)=>{this.select = node}}/>
+					
 					<li className="dropdown-list">
 						{/*ref="searchCountry"*/}
 						<input ref={(input)=>{this.searchInput = input}}
