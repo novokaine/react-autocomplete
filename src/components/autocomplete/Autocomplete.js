@@ -26,21 +26,23 @@ class Autocomplete extends React.Component {
 		
 	}
 	
-	renderCountry(country, key){
+	renderCountry(country, dataKey){
 		return (
 			<RenderCountry
-				dataKey={key}
+				key={dataKey}
+				dataKey={dataKey}
 				countryDetails={country}
 				selectCountry={this.selectCountry}
 				click={() => this.selectCountry(country)}
 				cursor={this.state.cursor}
+				refNode={(node)=>{this.country = node}}
 			/>
 		)
 	}
 	
 	searchCountry(searchString){
 		let regex = new RegExp(searchString, 'gi');
-		var data = this.state.countryList;
+		let data = this.state.countryList;
 
 		let matches =  data.filter(country => {
 			return country.name.match(regex)
@@ -99,13 +101,18 @@ class Autocomplete extends React.Component {
 		if(keyKode.indexOf(event.key) != -1){
 			switch (event.key){
 				case 'ArrowDown':
-					this.setState({cursor: this.state.cursor < this.state.filterCountry.length ? this.state.cursor + 1 : this.state.filterCountry.length - 1});
+					this.setState({cursor: this.state.cursor < this.state.filterCountry.length ? this.state.cursor += 1 : this.state.filterCountry.length -= 1});
+					
 					break;
 				case 'ArrowUp':
-					this.setState({cursor: this.state.cursor > 0 ? this.state.cursor -1 : 0});
+					this.setState({cursor: this.state.cursor > 0 ? this.state.cursor -=1 : 0});
 					break;
 			}
 		}
+		
+		//this.scrollbar.scrollTop(150);
+		// console.log(document.querySelector(`${this.dropDownList}`))
+		console.log(this.country)
 	}
 	
 	handleScrollUpdate(event){
@@ -145,7 +152,8 @@ class Autocomplete extends React.Component {
 							            autoHeight
 							            onUpdate={this.handleScrollUpdate}
 							            onScroll={this.getScroll}
-							            onScrollFrame={this.handleScroll} ref="mineScrollbar">
+							            onScrollFrame={this.handleScroll}
+							            ref={(scrollbar) => {this.scrollbar = scrollbar}}>
 
 								{loading ?
 									<li>Loading</li> :

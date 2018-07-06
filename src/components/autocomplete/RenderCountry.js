@@ -2,7 +2,7 @@ import React from 'react';
 
 const RenderCountry = (props) =>{
 	return(
-		<li key={props.dataKey} onClick={props.click} className={props.dataKey === props.cursor ? 'hover' :''} >
+		<li key={props.dataKey} onClick={props.click} className={props.dataKey === props.cursor ? 'hover' :''} ref={props.refNode}  >
 			<svg>
 				<svg><use  xlinkHref={"#" + props.countryDetails.code.toLowerCase()} /></svg>
 			</svg>
