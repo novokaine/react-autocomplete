@@ -109,10 +109,16 @@ class Autocomplete extends React.Component {
 					break;
 			}
 		}
-		
-		//this.scrollbar.scrollTop(150);
+		/*console.log(this.scrollbar)
+		console.log(this.scrollbar.getClientHeight());
+		console.log(this.scrollbar.getScrollHeight());
+		console.log(this.scrollbar.view.children)*/
+		//this.scrollbar.scrollTop(this.scrollbar.props.children[this.state.cursor])
+		//this.scrollbar.scrollTop(this.state.cursor * 34 ? this.state.cursor >=0  && this.state.cursor <= this.state.filterCountry.length: '');
+		this.scrollbar.scrollTop(this.state.cursor * 34);
+		 //this.scrollbar.scrollTop(this.state.cursor * this.scrollbar.props.children.height);
 		// console.log(document.querySelector(`${this.dropDownList}`))
-		console.log(this.country)
+		//console.log(this.country)
 	}
 	
 	handleScrollUpdate(event){
