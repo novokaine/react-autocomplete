@@ -102,7 +102,6 @@ class Autocomplete extends React.Component {
 			switch (event.key){
 				case 'ArrowDown':
 					this.setState({cursor: this.state.cursor < this.state.filterCountry.length ? this.state.cursor += 1 : this.state.filterCountry.length -= 1});
-					
 					break;
 				case 'ArrowUp':
 					this.setState({cursor: this.state.cursor > 0 ? this.state.cursor -=1 : 0});
@@ -115,7 +114,15 @@ class Autocomplete extends React.Component {
 		console.log(this.scrollbar.view.children)*/
 		//this.scrollbar.scrollTop(this.scrollbar.props.children[this.state.cursor])
 		//this.scrollbar.scrollTop(this.state.cursor * 34 ? this.state.cursor >=0  && this.state.cursor <= this.state.filterCountry.length: '');
-		this.scrollbar.scrollTop(this.state.cursor * 34);
+		//this.scrollbar.scrollTop(this.state.cursor * 34);
+		//console.log(this.state.cursor);
+		
+		if(this.state.cursor < this.scrollbar.view.children.length) {
+			this.scrollbar.scrollTop(this.scrollbar.view.children[this.state.cursor].offsetTop);
+		}
+		
+		//console.log(this.scrollbar.view.children[this.state.cursor].offsetTop)
+		
 		 //this.scrollbar.scrollTop(this.state.cursor * this.scrollbar.props.children.height);
 		// console.log(document.querySelector(`${this.dropDownList}`))
 		//console.log(this.country)
