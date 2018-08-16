@@ -36,6 +36,7 @@ class Autocomplete extends React.Component {
 				click={() => this.selectCountry(country)}
 				cursor={this.state.cursor}
 				refNode={(node)=>{this.country = node}}
+				svgData={this.props.svgData}
 			/>
 		)
 	}
@@ -135,7 +136,6 @@ class Autocomplete extends React.Component {
 	getScroll(event){
 		/*@TODO - yet to be implemented (if needed)*/
 	}
-	
 	handleScroll(event){
 		/*@TODO - yet to be implemented (if needed)*/
 	}
@@ -148,7 +148,7 @@ class Autocomplete extends React.Component {
 			/*@TODO - check to see a better splitting*/
 			<div className={dropDownClassName} onClick={(event) => this.toggleDropdown(event)} >
 				<ul>
-					<RenderSearch flag={flag} value={value} propRef={(node)=>{this.select = node}}/>
+					<RenderSearch flag={flag} value={value} propRef={(node)=>{this.select = node}} svgData={this.props.svgData}/>
 					
 					<li className="dropdown-list">
 						<input ref={(input)=>{this.searchInput = input}}
@@ -160,22 +160,24 @@ class Autocomplete extends React.Component {
 						
 						<i className="ico-wb-search"></i>
 						
-						<ul>
+						
 							<Scrollbars style={{width: 340}}
 							            autoHeight
 							            onUpdate={this.handleScrollUpdate}
 							            onScroll={this.getScroll}
 							            onScrollFrame={this.handleScroll}
 							            ref={(scrollbar) => {this.scrollbar = scrollbar}}>
-
-								{loading ?
+								
+								<ul>
+									{loading ?
 									<li>Loading</li> :
 									(filterCountry.length ?
 										filterCountry.map((country, key) => this.renderCountry(country, key)) :
 											<li><span>No results found</span></li>
 								)}
-							</Scrollbars>
+							
 						</ul>
+					</Scrollbars>
 					</li>
 				</ul>
 			</div>
