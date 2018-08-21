@@ -2,6 +2,8 @@ import React from 'react';
 import RenderCountry from './RenderCountry';
 import RenderSearch from './RenderSearch';
 import  { Scrollbars } from 'react-custom-scrollbars';
+import store from '../../reducers/countries';
+
 //https://github.com/malte-wessel/react-custom-scrollbars
 
 class Autocomplete extends React.Component {
@@ -68,6 +70,7 @@ class Autocomplete extends React.Component {
 	}
  
 	componentDidMount() {
+		
 		this.setState({
 			loading:        false,
 			countryList:    this.props.countriesData,
@@ -77,6 +80,7 @@ class Autocomplete extends React.Component {
  
 	componentWillUpdate(){
 		/*@TODO - yet to be implemented (if needed)*/
+		
 	}
 	
 	componentWillReceiveProps(){
@@ -143,7 +147,7 @@ class Autocomplete extends React.Component {
 	render() {
 		const {loading, filterCountry, dropDownVisible, flag, value} = this.state,
 			dropDownClassName = dropDownVisible ? "search-wrapper opened" : "search-wrapper";
-			
+		//console.log(store)
 		return (
 			/*@TODO - check to see a better splitting*/
 			<div className={dropDownClassName} onClick={(event) => this.toggleDropdown(event)} >

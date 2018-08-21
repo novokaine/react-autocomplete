@@ -4,6 +4,7 @@ import RenderSearch from './RenderSearch.js';
 import  { Scrollbars } from 'react-custom-scrollbars';
 
 
+
 /*@TODO - yet to be implemented (for a better component splitting)*/
 class RenderDropdown extends Component{
 
@@ -28,9 +29,11 @@ class RenderDropdown extends Component{
 			/>
 		)
 	}
-
+ 
 	render(){
 		const {loading, filterCountry, dropDownVisible, flag, value} = this.props;
+		
+		
 		return(
 			<ul>
 				<RenderSearch flag={flag} value={value} propRef={(node)=>{this.select = node}}/>
