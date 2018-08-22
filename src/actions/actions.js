@@ -1,3 +1,4 @@
-export const fetchCountries = function(){
-	return {type: 'FETCH_COUNTRIES_FROM_API', data: countries }
+
+export const countriesActions = function(){
+	return {type: 'FETCH_COUNTRIES_FROM_API', data: 'ceva' }
 }
