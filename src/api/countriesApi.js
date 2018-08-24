@@ -5,9 +5,3 @@ export const fetchCountries = () => {
 		.then(response=>response.json())
 		.then(countries=>countries);
 };
-
-/*
-const countriesList = fetch(COUNTRY_URL)
-	.then(response=>response.json())
-	.then(countries=>countries);
-*/

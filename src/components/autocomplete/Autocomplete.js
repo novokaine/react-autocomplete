@@ -70,7 +70,7 @@ class Autocomplete extends React.Component {
 	}
  
 	componentDidMount() {
-		
+		console.log(store);
 		this.setState({
 			loading:        false,
 			countryList:    this.props.countriesData,
