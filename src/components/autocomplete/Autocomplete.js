@@ -2,7 +2,7 @@ import React from 'react';
 import RenderCountry from './RenderCountry';
 import RenderSearch from './RenderSearch';
 import  { Scrollbars } from 'react-custom-scrollbars';
-import store from '../../reducers/countries';
+import store from '../../store';
 
 //https://github.com/malte-wessel/react-custom-scrollbars
 
@@ -26,6 +26,8 @@ class Autocomplete extends React.Component {
 		this.handleScroll       = this.handleScroll.bind(this);
 		this.renderCountry      = this.renderCountry.bind(this);
 		
+		
+		console.log(store.getState());
 	}
 	
 	renderCountry(country, dataKey){

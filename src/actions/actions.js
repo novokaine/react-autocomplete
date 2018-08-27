@@ -1,30 +1,17 @@
-/*ACTIONS CREATORS*/
-export const FETCH_COUNTRIES_FROM_API = 'FETCH_COUNTRIES_FROM_API';
-const COUNTRY_URL = 'http://localhost:3500/countries.json';
-const data = {};
-/*
-export function fetchCountries(){
+export function getCountries(state = [], countriesList){
+	console.log('state: ', state, 'CountryList: ', countriesList);
+	alert('')
 	return {
-		type: FETCH_COUNTRIES_FROM_API,
-		data: countries
+		type: 'GET_COUNTRIES_LIST',
+		countriesList
 	}
-};*/
+}
 
-const requestCountries = () =>{
+/*export function filterCountries(state = [], filteredCountries){
 	return {
-		type: FETCH_COUNTRIES_FROM_API,
-		data
+		type: 'FILTER_COUNTRIES',
+		filteredCountries
 	}
-};
+}*/
 
-export const fetchCountries = () => {
-	return dispatch => {
-		return fetch(COUNTRY_URL)
-			.then(response=>response.json())
-			.then(countries=>countries);
-	}
-	
-	/*return fetch(COUNTRY_URL)
-		.then(response=>response.json())
-		.then(countries=>countries);*/
-};
+// export const getCountries = countryList => ({ type: 'GET_COUNTRIES_LIST', data: countryList });

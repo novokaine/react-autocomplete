@@ -1,34 +1,16 @@
-import thunkMiddleware  from 'redux-thunk';
-import {createStore, applyMiddleware} from 'redux';
-import {fetchCountries} from "../api/countriesApi";
-import * as actions from '../actions/actions';
-import {combineReducers} from 'redux';
+/*function countriesReducer(state = [], action){
+	console.log('here is the state:', state,  'and here is the action', action);
+	return state;
+}*/
 
-/*import {
-	FETCH_COUNTRIES_FROM_API
-} from '../actions/actions';*/
-
-function createCountryList(state = [], action) {
-	switch (action.type) {
-		case actions.FETCH_COUNTRIES_FROM_API:
-			return action.data || state;
+function countriesReducer(state =[], action){
+	switch (action.type){
+		case 'GET_COUNTRIES_LIST':
+			console.log(action)
+			return action.getCountries()
 		default:
-			return state
+			return state;
 	}
 }
-const store = createStore(createCountryList, applyMiddleware(thunkMiddleware));
 
-console.log(fetchCountries())
-
-store.dispatch({
-	type: 'RECEIVE_DATA',
-	data: 'ceva'
-});
-console.log(store.getState());
-export default store;
-/*
-console.log(store.getState());
-export default store;*/
-
-
-
+export default countriesReducer;
