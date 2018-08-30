@@ -1,7 +1,6 @@
 import React                    from 'react';
 import ReactDOM                 from 'react-dom';
 import registerServiceWorker    from './registerServiceWorker';
-import countriesData            from './data/countries.json';
 import svgSprite                from './data/svg/flags.svg';
 // import Autocomplete             from './components/autocomplete/Autocomplete-second';
 import Autocomplete from './components/temp/Autocomplete';
@@ -14,7 +13,9 @@ const router = (
 	<Provider store={store}>
 		<Autocomplete/>
 	</Provider>
-)
+);
+
+
 
 // ReactDOM.render(<Autocomplete store={store} countriesData={countriesData} svgData={svgSprite} />, document.getElementById('root'))
 // ReactDOM.render(<Autocomplete store={store} />, document.getElementById('root'))

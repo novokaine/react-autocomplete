@@ -68,35 +68,16 @@ export default store;*/
 /*===============@4-th VARIANT===============*/
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
-import rootReducer from './reducers/index';
-import countries from './data/countries';
-import * as createAction from './actions/actions';
+import * as rootReducer from './reducers/countries';
+import { fetchCountries } from './actions/actions';
 
-import { countriesApi, simpleFetchCountries } from './api/countriesApi';
+const store = createStore(combineReducers(rootReducer), applyMiddleware(thunk));
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+store.dispatch(fetchCountries());
 
-function getAllCountries(){
-	return (dispatch) => {
-		return simpleFetchCountries()
-			/*.then(
-				response => response.json()
-				//response=>dispatch(createAction.getCountries(response.json()))
-			)*/
-			.then((countriesList)=> {
-					console.log(createAction);
-					countriesList => dispatch(createAction.getCountries(countriesList));
-				}
-			)
-			/*.then(countriesList=>
-				countriesList => dispatch(createAction.getCountries(countriesList))
-			)*/
-		/*return simpleFetchCountries()
-			.then( response => response.json())
-			.then(data=>data)*/
-	}
-}
+/*@TODO - map state to props*/
 
-store.dispatch(getAllCountries());
+
+//store.dispatch(getAllCountries()).then(()=>console.log('done'));
 //store.dispatch(getAllCountries().then(()=>console.log('done')));
 export default store;
