@@ -25,6 +25,7 @@
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "fs": "0.0.1-security",
+    "immutable": "^3.8.2",
     "jquery": "^3.3.1",
     "jquery-scrollpanel": "^0.7.0",
     "nodemon": "^1.17.5",
@@ -37,6 +38,7 @@
     "react-router-redux": "^4.0.8",
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",
+    "reselect": "^3.0.1",
     "svg2ttf": "^4.1.0"
   }
 }

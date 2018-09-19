@@ -67,13 +67,17 @@ export default store;*/
 
 /*===============@4-th VARIANT===============*/
 import {createStore, combineReducers, applyMiddleware} from 'redux';
-import thunk from 'redux-thunk';
+// import thunk from 'redux-thunk';
+import thunkMiddleware from 'redux-thunk';
 import * as rootReducer from './reducers/countries';
-import { fetchCountries } from './actions/actions';
+// import { fetchCountries } from './actions/actions';
 
-const store = createStore(combineReducers(rootReducer), applyMiddleware(thunk));
 
-store.dispatch(fetchCountries());
+
+// const store = createStore(combineReducers(rootReducer), applyMiddleware(thunk));
+const store = createStore(combineReducers(rootReducer), applyMiddleware(thunkMiddleware));
+
+// store.dispatch(fetchCountries());
 
 /*@TODO - map state to props*/
 

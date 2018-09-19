@@ -18,9 +18,9 @@ const router = (
 
 
 // ReactDOM.render(<Autocomplete store={store} countriesData={countriesData} svgData={svgSprite} />, document.getElementById('root'))
-// ReactDOM.render(<Autocomplete store={store} />, document.getElementById('root'))
+ReactDOM.render(<Autocomplete store={store} />, document.getElementById('root'))
 
- ReactDOM.render(router, document.getElementById('root'))
+// ReactDOM.render(router, document.getElementById('root'))
 
 registerServiceWorker();
  
